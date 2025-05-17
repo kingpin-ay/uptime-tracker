@@ -1,4 +1,5 @@
-name: Backend CI
+name: Build check for the frontend and backend
+run-name: ${{ github.actor }} is testing out Build Actions 🚀
 
 on:
   push:
@@ -11,22 +12,27 @@ on:
       - '.github/workflows/backend-ci.yml'
 
 jobs:
-  backend-ci:
+  backend-build:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./backend
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Install dependencies
-        run: npm install
-      - name: Build TypeScript
-        run: npm run build
+      
+      - name: Install pnpm
+        run: npm install --global corepack@latest
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
       - name: Type check
         run: npx tsc --noEmit 
