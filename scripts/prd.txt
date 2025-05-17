@@ -1,0 +1,743 @@
+# Uptime Monitor + Cron Job Alerts PRD
+
+## Document Information
+**Version:** 1.0  
+**Last Updated:** May 17, 2025  
+**Author:** Technical Product Management Team  
+
+## Table of Contents
+1. [Introduction](#1-introduction)
+2. [Product Overview](#2-product-overview)
+3. [Goals and Objectives](#3-goals-and-objectives)
+4. [Target Audience](#4-target-audience)
+5. [Features and Requirements](#5-features-and-requirements)
+6. [User Stories and Acceptance Criteria](#6-user-stories-and-acceptance-criteria)
+7. [Technical Requirements / Stack](#7-technical-requirements--stack)
+8. [Design and User Interface](#8-design-and-user-interface)
+9. [Appendix](#9-appendix)
+
+## 1. Introduction
+
+This Product Requirements Document (PRD) outlines the functional and non-functional requirements for the Uptime Monitor + Cron Job Alerts system. The document serves as a comprehensive guide for the development team, providing clear specifications and acceptance criteria for the successful implementation of the product.
+
+The Uptime Monitor + Cron Job Alerts system is designed to provide developers and system administrators with a reliable tool to monitor the availability of websites, APIs, and the successful execution of scheduled tasks (cron jobs). This PRD defines the scope, features, workflows, and technical requirements necessary to deliver a minimum viable product (MVP) that addresses these core monitoring needs.
+
+This document will be used as a reference throughout the development process to ensure that all requirements are properly implemented and tested before release.
+
+## 2. Product overview
+
+The Uptime Monitor + Cron Job Alerts system is a comprehensive monitoring solution that helps developers and system administrators ensure their web services and scheduled tasks are running as expected. The product consists of two primary monitoring capabilities:
+
+1. **Website/API Monitoring**: Regularly checks websites and APIs for availability by sending HTTP requests at configurable intervals and tracking response status codes and time.
+
+2. **Cron Job Monitoring**: Provides unique URLs that can be pinged by cron jobs after successful execution, enabling users to verify that their scheduled tasks are running on time.
+
+The system features a centralized dashboard that displays the status of all monitored services and sends email alerts when issues are detected. Users can quickly identify problems, track historical performance, and receive timely notifications when their services require attention.
+
+Built with a focus on reliability and ease of use, the system aims to provide peace of mind to developers and administrators who need to ensure their services remain operational around the clock.
+
+## 3. Goals and objectives
+
+### Primary goals
+
+1. Provide developers and system administrators with a reliable tool to monitor website/API availability and cron job execution.
+2. Deliver timely alerts when monitored services fail or cron jobs miss their expected execution windows.
+3. Present monitoring data in an intuitive dashboard that enables users to quickly assess the health of their services.
+4. Offer a free tier that provides essential monitoring capabilities for individual developers and small projects.
+
+### Business objectives
+
+1. Attract a user base of at least 1,000 active users within the first three months of launch.
+2. Achieve a 15% conversion rate from free to paid subscriptions within six months of launch.
+3. Maintain a system uptime of 99.9% to establish credibility as a reliable monitoring service.
+4. Keep operational costs within $25 per month during the MVP phase.
+
+### Success metrics
+
+1. **User Acquisition**: Number of new sign-ups per week
+2. **User Engagement**: Average number of monitors created per user
+3. **System Reliability**: Percentage of monitoring checks completed successfully
+4. **Alert Effectiveness**: Average time between issue detection and alert delivery
+5. **User Satisfaction**: Net Promoter Score (NPS) from user feedback
+
+## 4. Target audience
+
+### Primary users
+
+1. **Independent Developers**
+   - Maintain personal projects or small client websites
+   - Need simple monitoring for side projects
+   - Value cost-effectiveness and ease of setup
+
+2. **DevOps Engineers**
+   - Responsible for maintaining production systems
+   - Need visibility into multiple services
+   - Require reliable alerting for critical systems
+
+3. **System Administrators**
+   - Manage scheduled maintenance tasks and backups
+   - Need to verify cron job execution
+   - Require alerts when automated processes fail
+
+4. **Small Development Teams**
+   - Work on SaaS applications or websites
+   - Need shared visibility into service health
+   - Require monitoring without complex setup
+
+### User needs and pain points
+
+1. **Reliability Concerns**
+   - Need to know immediately when services go down
+   - Want verification that automated tasks are running
+   - Struggle with unpredictable service disruptions
+
+2. **Resource Constraints**
+   - Limited time for manual checking of services
+   - Limited budget for expensive monitoring solutions
+   - Need simplicity without sacrificing functionality
+
+3. **Visibility Issues**
+   - Difficulty tracking multiple services in one place
+   - Lack of insight into cron job execution
+   - Need for historical performance data
+
+4. **Alert Management**
+   - Receiving too many false positive alerts
+   - Missing critical alerts due to poor notification systems
+   - Need for actionable information in alerts
+
+## 5. Features and requirements
+
+### 5.1 Functional requirements
+
+#### 5.1.1 User authentication and management
+
+- Support GitHub OAuth for streamlined developer login
+- Provide traditional email/password registration and authentication
+- Implement secure password storage and management
+- Support password reset functionality
+- Track user tier status (free or paid)
+
+#### 5.1.2 Website/API monitoring
+
+- Allow users to add monitors by providing a URL
+- Support selection of HTTP methods (GET, POST)
+- Enable configuration of monitoring intervals (5, 15, 30 minutes)
+- Track and store response status codes
+- Measure and record response times
+- Calculate and display uptime percentage (24h and 7d periods)
+- Store historical monitoring data for trending
+- Support request headers and authentication for API monitoring
+
+#### 5.1.3 Cron job monitoring
+
+- Enable creation of named cron job monitors
+- Generate and assign unique ping URLs for each monitor
+- Allow users to configure expected ping intervals
+- Track and store timestamp of last successful ping
+- Calculate and flag missed pings based on expected intervals
+- Store historical ping data for trending
+- Display time since last successful ping
+
+#### 5.1.4 Alerting system
+
+- Send email alerts for non-2xx/3xx responses from website/API monitors
+- Send email alerts for missed cron job pings
+- Include relevant details in alerts (monitor name, timestamp, error details)
+- Implement alert throttling to prevent alert fatigue
+- Support alert acknowledgment
+- Track alert history
+- Implement alert resolution notifications
+
+#### 5.1.5 Dashboard interface
+
+- Display all monitors in a unified view
+- Show current status indicators (Up, Down, Alerting, OK)
+- Present last check time for website/API monitors
+- Display last ping time for cron job monitors
+- Show uptime percentages for the last 24h and 7d
+- Use clear visual indicators for status (green for healthy, red for alerting)
+- Support filtering and sorting of monitors
+- Provide responsive design for mobile and desktop viewing
+
+#### 5.1.6 Free tier limitations
+
+- Limit free accounts to 3 active monitors (combined total of website/API and cron jobs)
+- Clearly communicate limits to users
+- Provide upgrade path to paid tiers
+
+### 5.2 Non-functional requirements
+
+#### 5.2.1 Performance
+
+- Website/API checks must complete within 10 seconds
+- Dashboard must load within 3 seconds
+- Alert emails must be dispatched within 30 seconds of issue detection
+- System must handle at least 10,000 monitoring checks per hour
+
+#### 5.2.2 Scalability
+
+- Architecture must support horizontal scaling for increased load
+- Database design must efficiently handle growing monitoring history
+- Background jobs must scale with increasing monitor count
+
+#### 5.2.3 Reliability
+
+- Monitoring system must have 99.9% uptime
+- False positives must be minimized through retry logic
+- System must be resilient to temporary network issues
+- Data integrity must be maintained during system updates
+
+#### 5.2.4 Security
+
+- All communications must use TLS/SSL encryption
+- User authentication data must be securely stored
+- API authentication credentials must be encrypted
+- System must be protected against common web vulnerabilities
+
+#### 5.2.5 Compliance
+
+- System must respect user privacy in accordance with GDPR
+- Data retention policies must be clearly communicated
+- Users must be able to export and delete their data
+
+#### 5.2.6 Cost-efficiency
+
+- MVP must operate within AWS free tier or $25 monthly budget
+- Resource usage must be optimized for cost-effectiveness
+- Database storage must be efficient
+
+## 6. User stories and acceptance criteria
+
+### 6.1 User authentication
+
+#### ST-101: User registration with email
+**As a** new user,  
+**I want to** create an account using my email and password,  
+**So that** I can access the monitoring services.
+
+**Acceptance Criteria:**
+1. User can navigate to the registration page
+2. User can enter email, password, and confirm password
+3. System validates email format and password strength
+4. System prevents duplicate email registrations
+5. User receives confirmation email after successful registration
+6. User can activate account via confirmation link
+7. User is redirected to dashboard after successful activation
+
+#### ST-102: User login with GitHub OAuth
+**As a** developer,  
+**I want to** log in using my GitHub account,  
+**So that** I can quickly access the system without creating separate credentials.
+
+**Acceptance Criteria:**
+1. User sees "Login with GitHub" option on the login page
+2. User is redirected to GitHub authorization page when selecting this option
+3. After authorizing the application, user is redirected back to the system
+4. System creates a new account if the GitHub user doesn't exist
+5. System links GitHub account to existing account if email matches
+6. User is successfully logged in and directed to the dashboard
+
+#### ST-103: User login with email
+**As a** registered user,  
+**I want to** log in with my email and password,  
+**So that** I can access my monitoring dashboard.
+
+**Acceptance Criteria:**
+1. User can navigate to the login page
+2. User can enter registered email and password
+3. System validates credentials
+4. System provides error message for invalid credentials
+5. User is redirected to dashboard upon successful login
+6. System offers "Remember me" functionality
+
+#### ST-104: Password reset
+**As a** user who forgot their password,  
+**I want to** reset my password,  
+**So that** I can regain access to my account.
+
+**Acceptance Criteria:**
+1. User can access "Forgot Password" link from login page
+2. User can submit registered email address
+3. System sends password reset link to registered email
+4. Reset link is valid for 24 hours only
+5. User can set new password via reset link
+6. System confirms successful password change
+7. User can log in with new password
+
+### 6.2 Website/API monitoring
+
+#### ST-201: Add website monitor
+**As a** user,  
+**I want to** add a new website monitor,  
+**So that** I can track its availability.
+
+**Acceptance Criteria:**
+1. User can navigate to "Add Monitor" section
+2. User can enter website URL
+3. User can select HTTP method (GET/POST)
+4. User can choose monitoring interval (5, 15, 30 minutes)
+5. System validates URL format
+6. System confirms monitor creation
+7. New monitor appears in the dashboard
+8. System begins checking the URL at the specified interval
+
+#### ST-202: View website monitor status
+**As a** user,  
+**I want to** view the current status of my website monitors,  
+**So that** I can quickly identify any issues.
+
+**Acceptance Criteria:**
+1. Dashboard displays all website monitors
+2. Each monitor shows current status (Up/Down)
+3. Status is visually indicated (green for Up, red for Down)
+4. Last check time is displayed for each monitor
+5. Response time is displayed for successful checks
+6. Uptime percentage is shown for 24h and 7d periods
+7. User can see HTTP status code of last check
+
+#### ST-203: Edit website monitor
+**As a** user,  
+**I want to** modify an existing website monitor,  
+**So that** I can adjust its configuration as needed.
+
+**Acceptance Criteria:**
+1. User can access edit functionality for existing monitors
+2. User can modify URL, HTTP method, and check interval
+3. System validates changes
+4. System confirms successful update
+5. Dashboard reflects updated configuration
+6. Monitoring continues with new settings
+
+#### ST-204: Delete website monitor
+**As a** user,  
+**I want to** remove a website monitor,  
+**So that** I can stop tracking a website I no longer need to monitor.
+
+**Acceptance Criteria:**
+1. User can select delete option for an existing monitor
+2. System requests confirmation before deletion
+3. System confirms successful deletion
+4. Monitor is removed from dashboard
+5. System stops checking the removed monitor
+6. Monitor count is updated for user's quota
+
+### 6.3 Cron job monitoring
+
+#### ST-301: Add cron job monitor
+**As a** system administrator,  
+**I want to** create a cron job monitor,  
+**So that** I can verify my scheduled tasks are running properly.
+
+**Acceptance Criteria:**
+1. User can navigate to "Add Cron Job Monitor" section
+2. User can provide a name for the cron job
+3. User can set expected ping interval
+4. System generates unique ping URL
+5. System displays ping URL for user to copy
+6. User can see instructions for implementing ping in their cron job
+7. New cron job monitor appears in dashboard
+8. System begins tracking ping status
+
+#### ST-302: View cron job monitor status
+**As a** system administrator,  
+**I want to** view the status of my cron job monitors,  
+**So that** I can verify they're running on schedule.
+
+**Acceptance Criteria:**
+1. Dashboard displays all cron job monitors
+2. Each monitor shows current status (OK/Alerting)
+3. Status is visually indicated (green for OK, red for Alerting)
+4. Last ping time is displayed for each monitor
+5. Time since last ping is shown
+6. Expected ping interval is displayed
+7. User can view ping history
+
+#### ST-303: Edit cron job monitor
+**As a** system administrator,  
+**I want to** modify a cron job monitor,  
+**So that** I can update its configuration when my schedule changes.
+
+**Acceptance Criteria:**
+1. User can access edit functionality for existing cron job monitors
+2. User can modify name and expected ping interval
+3. System validates changes
+4. System confirms successful update
+5. Dashboard reflects updated configuration
+6. Ping URL remains unchanged
+7. Monitoring continues with new expectations
+
+#### ST-304: Reset ping URL
+**As a** system administrator,  
+**I want to** reset the ping URL for a cron job monitor,  
+**So that** I can ensure security if the old URL is compromised.
+
+**Acceptance Criteria:**
+1. User can request ping URL reset for a monitor
+2. System requests confirmation before reset
+3. System generates new unique ping URL
+4. Old ping URL becomes invalid
+5. System displays new ping URL for user to copy
+6. User receives instructions to update their cron job
+7. Monitor status is maintained during transition
+
+#### ST-305: Delete cron job monitor
+**As a** system administrator,  
+**I want to** remove a cron job monitor,  
+**So that** I can stop tracking a job that's no longer relevant.
+
+**Acceptance Criteria:**
+1. User can select delete option for an existing cron job monitor
+2. System requests confirmation before deletion
+3. System confirms successful deletion
+4. Monitor is removed from dashboard
+5. Ping URL becomes invalid
+6. Monitor count is updated for user's quota
+
+### 6.4 Alerting
+
+#### ST-401: Receive website down alert
+**As a** user,  
+**I want to** receive an email alert when my website is down,  
+**So that** I can address the issue promptly.
+
+**Acceptance Criteria:**
+1. System detects non-2xx/3xx response from website monitor
+2. System sends alert email to user's registered email
+3. Alert includes monitor name, timestamp, and error details
+4. Alert email is sent within 30 seconds of detection
+5. System records alert in alert history
+6. Dashboard status updates to reflect outage
+
+#### ST-402: Receive missed cron job alert
+**As a** system administrator,  
+**I want to** receive an email alert when a cron job misses its schedule,  
+**So that** I can investigate the failure.
+
+**Acceptance Criteria:**
+1. System detects missed ping based on expected interval
+2. System sends alert email to user's registered email
+3. Alert includes job name, expected time, and time since last ping
+4. Alert email is sent within 30 seconds of detection
+5. System records alert in alert history
+6. Dashboard status updates to reflect missed job
+
+#### ST-403: Acknowledge alert
+**As a** user,  
+**I want to** acknowledge an active alert,  
+**So that** I can indicate I'm aware of the issue.
+
+**Acceptance Criteria:**
+1. User can view active alerts in dashboard
+2. User can select acknowledge option for an alert
+3. System marks alert as acknowledged
+4. Dashboard updates to show acknowledged status
+5. System does not send repeated alerts for acknowledged issues
+6. User can add optional note when acknowledging
+
+#### ST-404: Receive resolution notification
+**As a** user,  
+**I want to** receive notification when an issue is resolved,  
+**So that** I know when my service is back to normal.
+
+**Acceptance Criteria:**
+1. System detects successful check after previous failure
+2. System sends resolution email to user
+3. Email includes monitor name, downtime duration, and resolution time
+4. Dashboard updates to show resolved status
+5. System records resolution in alert history
+
+### 6.5 Dashboard and reporting
+
+#### ST-501: View dashboard
+**As a** user,  
+**I want to** view a dashboard of all my monitors,  
+**So that** I can assess the overall health of my services.
+
+**Acceptance Criteria:**
+1. User sees all monitors upon logging in
+2. Dashboard displays both website and cron job monitors
+3. Each monitor shows current status with visual indicators
+4. Dashboard loads within 3 seconds
+5. Information updates automatically or with manual refresh
+6. Responsive design works on mobile and desktop devices
+
+#### ST-502: Filter monitors
+**As a** user with multiple monitors,  
+**I want to** filter the dashboard view,  
+**So that** I can focus on specific monitors.
+
+**Acceptance Criteria:**
+1. User can filter by monitor type (website vs. cron job)
+2. User can filter by status (Up/Down/OK/Alerting)
+3. User can search by monitor name or URL
+4. Filtered view updates immediately
+5. Filter state is maintained during session
+6. User can clear all filters
+
+#### ST-503: View monitor details
+**As a** user,  
+**I want to** view detailed information about a specific monitor,  
+**So that** I can analyze its performance.
+
+**Acceptance Criteria:**
+1. User can select a monitor to view details
+2. Details view shows configuration information
+3. Last 10 checks/pings are displayed with timestamps
+4. Response times are displayed for website monitors
+5. User can view alert history for the monitor
+6. Uptime percentage is shown for different time periods (24h, 7d)
+
+### 6.6 Account management
+
+#### ST-601: View account limits
+**As a** free tier user,  
+**I want to** view my current usage and limits,  
+**So that** I can manage my monitors accordingly.
+
+**Acceptance Criteria:**
+1. User can access account information section
+2. System displays current monitor count and maximum allowed (3)
+3. System shows breakdown of monitor types
+4. User receives clear notification when approaching limit
+5. System prevents creation of monitors beyond limit
+6. System presents upgrade options when limit is reached
+
+#### ST-602: Update account email
+**As a** user,  
+**I want to** change my account email,  
+**So that** I can keep my contact information current.
+
+**Acceptance Criteria:**
+1. User can access profile settings
+2. User can enter and confirm new email address
+3. System validates new email format
+4. System sends verification to new email
+5. User must confirm via verification link
+6. System updates email after verification
+7. System confirms successful change
+
+#### ST-603: Change password
+**As a** user,  
+**I want to** update my password,  
+**So that** I can maintain account security.
+
+**Acceptance Criteria:**
+1. User can access password change option in profile settings
+2. User must enter current password
+3. User enters and confirms new password
+4. System validates password strength
+5. System confirms successful password change
+6. User receives email notification of password change
+7. User can continue to use the system with new password
+
+#### ST-604: Delete account
+**As a** user,  
+**I want to** delete my account,  
+**So that** I can remove my data when the service is no longer needed.
+
+**Acceptance Criteria:**
+1. User can access account deletion option in profile settings
+2. System requires password confirmation for deletion
+3. System clearly warns about data loss
+4. System confirms user intent with explicit confirmation
+5. All user monitors are deleted
+6. All user data is removed from the system
+7. User receives email confirmation of account deletion
+
+### 6.7 Database modeling
+
+#### ST-701: Database schema design
+**As a** developer,  
+**I want to** design an efficient database schema,  
+**So that** the system can store and retrieve monitoring data effectively.
+
+**Acceptance Criteria:**
+1. Schema includes user account tables with authentication information
+2. Schema includes monitor configuration tables for both types
+3. Schema includes check/ping history tables with timestamps and results
+4. Schema includes alert history and status
+5. Database relationships are properly defined with appropriate keys
+6. Indexes are created for frequently queried fields
+7. Schema supports efficient querying for dashboard display
+8. Schema accommodates future expansion needs
+
+## 7. Technical requirements / stack
+
+### 7.1 Frontend technology
+
+- **Framework**: React.js for component-based UI development
+- **State Management**: Redux for application state management
+- **Styling**: Tailwind CSS for responsive design
+- **Charts/Visualizations**: Chart.js for uptime visualization
+- **Real-time Updates**: Websockets or polling for live status updates
+- **Compatibility**: Support for recent versions of Chrome, Firefox, Safari, and Edge
+
+### 7.2 Backend technology
+
+- **Framework**: Node.js with Express for API development
+- **Authentication**: Passport.js for OAuth and local authentication
+- **Database**: PostgreSQL for primary data storage
+- **Caching**: Redis for performance optimization
+- **Job Scheduling**: Bull queue with Redis for background tasks
+- **Monitoring Engine**: Custom service for executing HTTP checks
+- **Email Service**: SendGrid or AWS SES for alert notifications
+
+### 7.3 Infrastructure
+
+- **Hosting**: AWS (EC2 or Elastic Beanstalk) for application hosting
+- **Database Hosting**: AWS RDS for PostgreSQL
+- **Caching Layer**: AWS ElastiCache for Redis
+- **Load Balancing**: AWS Application Load Balancer for high availability
+- **Domain & SSL**: Route 53 and ACM for domain management and SSL
+- **Monitoring**: AWS CloudWatch for system monitoring
+
+### 7.4 Development operations
+
+- **Version Control**: Git with GitHub for code management
+- **CI/CD**: GitHub Actions for automated testing and deployment
+- **Testing**: Jest for unit tests, Cypress for end-to-end testing
+- **Code Quality**: ESLint and Prettier for code standardization
+- **Documentation**: Swagger/OpenAPI for API documentation
+- **Logging**: Winston for application logging
+
+### 7.5 Security requirements
+
+- **Authentication**: Secure password hashing with bcrypt
+- **Session Management**: JWT for stateless authentication
+- **Data Protection**: All sensitive data encrypted at rest
+- **Communication**: HTTPS/TLS for all communications
+- **Input Validation**: Client and server-side validation
+- **Rate Limiting**: Protection against brute force and DoS attacks
+- **CSRF Protection**: Token-based protection for form submissions
+- **Security Headers**: Implementation of secure HTTP headers
+
+### 7.6 Performance requirements
+
+- **Response Time**: API endpoints respond within 300ms (95th percentile)
+- **Page Load Time**: Initial page load under 3 seconds
+- **Concurrent Users**: Support for 1000+ concurrent users
+- **Monitoring Capacity**: Handle 100,000+ daily checks
+- **Database Performance**: Query response time under 100ms
+
+## 8. Design and user interface
+
+### 8.1 Design principles
+
+- **Simplicity**: Clean, uncluttered interface focused on monitoring data
+- **Accessibility**: WCAG 2.1 AA compliance for all interfaces
+- **Consistency**: Uniform design language across all pages
+- **Responsiveness**: Optimized for both desktop and mobile viewing
+- **Visual Hierarchy**: Important status information prominently displayed
+- **Dark Mode**: Support for light and dark themes
+
+### 8.2 Core interface components
+
+#### 8.2.1 Dashboard
+
+- **Monitor List**: Tabular view of all monitors with status indicators
+- **Status Summary**: Count of total, healthy, and alerting monitors
+- **Quick Filters**: Toggles for monitor types and status filters
+- **Search Bar**: Quick monitor lookup functionality
+- **Add Monitor Button**: Prominent call-to-action for adding new monitors
+
+#### 8.2.2 Monitor creation forms
+
+- **Website Monitor Form**:
+  - URL input field with validation
+  - HTTP method selection (GET/POST)
+  - Interval selection with preset options
+  - Advanced options for headers and authentication (collapsible)
+
+- **Cron Job Monitor Form**:
+  - Name input field
+  - Expected interval selection
+  - Generated ping URL display with copy button
+  - Instructions for implementation
+
+#### 8.2.3 Monitor detail view
+
+- **Configuration Panel**: Display of current settings
+- **Status Timeline**: Visual history of up/down status
+- **Recent Checks**: Table of recent check results
+- **Performance Metrics**: Response time graph (for website monitors)
+- **Alert History**: List of recent alerts with timestamps
+
+#### 8.2.4 User profile and settings
+
+- **Account Information**: Email and authentication method
+- **Usage Statistics**: Current monitor count and limits
+- **Notification Settings**: Email preferences
+- **Security Settings**: Password change option
+- **Advanced Settings**: Account deletion option
+
+### 8.3 Responsive design specifications
+
+- **Desktop**: Full-featured interface optimized for 1024px+ width
+- **Tablet**: Adapted layout for 768px-1023px width
+- **Mobile**: Simplified interface for devices below 768px
+- **Critical Information**: Status indicators visible at all breakpoints
+
+### 8.4 Color scheme and status indicators
+
+- **Primary Color**: #3366FF (Blue) for brand identity
+- **Success Status**: #10B981 (Green) for healthy/up status
+- **Warning Status**: #F59E0B (Amber) for potential issues
+- **Error Status**: #EF4444 (Red) for down/alerting status
+- **Neutral Background**: #F9FAFB (Light Gray) for content areas
+- **Dark Mode Background**: #1F2937 for dark theme
+
+## 9. Appendix
+
+### 9.1 Glossary
+
+- **Monitor**: A configured check for a website, API, or cron job
+- **Uptime**: Percentage of time a service has been available
+- **Check**: Individual instance of verifying a website/API's status
+- **Ping**: HTTP request made by a cron job to indicate successful execution
+- **Alert**: Notification sent when a monitor detects an issue
+- **Response Time**: Time taken for a monitored service to respond to a request
+- **Interval**: Time period between consecutive checks or expected pings
+
+### 9.2 Future enhancements
+
+#### Phase 2 (Post-MVP)
+
+- **Additional Notification Channels**: Slack, Discord, and webhook integration
+- **Team Collaboration**: Shared monitors and role-based access control
+- **Status Pages**: Public-facing status page generation
+- **Advanced Monitoring**: Content verification and multi-location checks
+- **Custom Alert Rules**: Configurable thresholds and conditions for alerts
+- **API Access**: Public API for programmatic monitor management
+
+#### Phase 3 (Long-term)
+
+- **Enterprise Features**: SSO integration and advanced reporting
+- **Infrastructure Monitoring**: Server resource monitoring integration
+- **Synthetic Monitoring**: User flow testing and transaction monitoring
+- **Mobile Application**: Native mobile apps for iOS and Android
+- **Advanced Analytics**: Performance trends and predictive alerts
+
+### 9.3 Dependencies and risks
+
+#### Dependencies
+
+- GitHub OAuth API for authentication
+- Email delivery service reliability
+- AWS service availability
+- Network reliability for monitoring checks
+
+#### Risks
+
+- False positives due to temporary network issues
+- Email deliverability challenges (spam filtering)
+- Scaling challenges with high monitor counts
+- Cost management with growing user base
+
+### 9.4 Success metrics tracking
+
+- **User Growth**: Weekly new user registrations
+- **Engagement**: Average monitors per active user
+- **Reliability**: False positive rate for alerts
+- **Performance**: Average response time for checks
+- **Retention**: Monthly active user retention rate
