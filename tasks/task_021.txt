@@ -1,0 +1,139 @@
+# Task ID: 21
+# Title: Task #21: Setup Drizzle ORM for Database Connection
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Implement and configure Drizzle ORM in the backend to manage database connections, with all database credentials securely loaded from environment variables.
+# Details:
+1. Install Drizzle ORM and related dependencies:
+   - Add `drizzle-orm` and appropriate database driver (e.g., `@libsql/client` for SQLite, `pg` for PostgreSQL)
+   - Install `dotenv` for environment variable management
+
+2. Create a `.env` file at the project root with the following variables:
+   - DATABASE_URL: The connection string for the database
+   - DATABASE_USER: Database username (if applicable)
+   - DATABASE_PASSWORD: Database password (if applicable)
+   - DATABASE_HOST: Database host (if applicable)
+   - DATABASE_PORT: Database port (if applicable)
+   - DATABASE_NAME: Database name (if applicable)
+
+3. Create a database connection module:
+   - Implement a `db.ts` or similar file that handles the connection setup
+   - Use `dotenv` to load environment variables
+   - Configure Drizzle with the appropriate database adapter
+   - Implement connection pooling if needed
+   - Add error handling for connection failures
+
+4. Create schema definitions:
+   - Define database tables using Drizzle's schema definition syntax
+   - Include appropriate data types, constraints, and relationships
+
+5. Implement a connection management strategy:
+   - Consider connection pooling for production environments
+   - Implement proper connection closing/cleanup
+
+6. Security considerations:
+   - Ensure the `.env` file is added to `.gitignore`
+   - Implement validation for environment variables
+   - Consider encryption for sensitive connection details
+   - Add appropriate error handling that doesn't expose sensitive information
+
+7. Documentation:
+   - Document the database schema
+   - Include setup instructions for other developers
+   - Document any environment variables required
+
+# Test Strategy:
+1. Unit Testing:
+   - Create unit tests for the database connection module
+   - Mock the database connection to test error handling
+   - Verify environment variables are correctly loaded
+
+2. Integration Testing:
+   - Set up a test database environment with test credentials
+   - Create a test-specific `.env.test` file
+   - Verify successful connection to the test database
+   - Test basic CRUD operations using Drizzle ORM
+   - Verify connection pooling works as expected (if implemented)
+
+3. Environment Variable Testing:
+   - Test behavior when required environment variables are missing
+   - Test behavior with invalid connection strings
+   - Verify error messages don't expose sensitive information
+
+4. Security Testing:
+   - Verify that database credentials are not logged or exposed
+   - Ensure the application fails securely if database connection fails
+   - Check that the `.env` file is properly excluded from version control
+
+5. Performance Testing:
+   - Measure connection establishment time
+   - Test connection pool behavior under load (if applicable)
+
+6. Manual Verification:
+   - Review the implementation against Drizzle ORM best practices
+   - Verify that all database operations use the Drizzle ORM interface
+   - Check that no hardcoded credentials exist in the codebase
+
+7. Documentation Review:
+   - Verify documentation includes all required environment variables
+   - Ensure setup instructions are clear and complete
+
+# Subtasks:
+## 1. Install Drizzle ORM dependencies and setup environment configuration [in-progress]
+### Dependencies: None
+### Description: Install all necessary Drizzle ORM packages and configure environment variables for database connection
+### Details:
+1. Install required packages: `drizzle-orm`, appropriate database driver (e.g., `@libsql/client` for SQLite or `pg` for PostgreSQL), and `dotenv`
+2. Create a `.env` file at the project root with all required database connection variables (DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD, etc.)
+3. Add `.env` to `.gitignore` to prevent committing sensitive information
+4. Create a `.env.example` file with placeholder values as a template for other developers
+5. Implement a basic environment variable validation function to ensure all required variables are present
+
+## 2. Create database connection module [pending]
+### Dependencies: None
+### Description: Implement a core database connection module that handles connection setup and management
+### Details:
+1. Create a `db.ts` file in an appropriate location (e.g., `src/lib/db.ts`)
+2. Use `dotenv` to load environment variables
+3. Configure Drizzle with the appropriate database adapter based on the selected database
+4. Implement connection pooling if needed for the chosen database
+5. Add robust error handling for connection failures
+6. Export a database client instance that can be imported by other modules
+7. Implement a connection health check function
+
+## 3. Define database schema using Drizzle [pending]
+### Dependencies: None
+### Description: Create schema definitions for all database tables using Drizzle's schema definition syntax
+### Details:
+1. Create a `schema` directory to organize table definitions
+2. Define each table using Drizzle's schema definition syntax with appropriate data types
+3. Implement constraints (primary keys, foreign keys, unique constraints, etc.)
+4. Define relationships between tables
+5. Export the schema definitions for use in queries
+6. Consider organizing schemas by domain/feature if the application has many tables
+
+## 4. Implement database query utilities [pending]
+### Dependencies: None
+### Description: Create utility functions for common database operations to simplify data access throughout the application
+### Details:
+1. Create a `queries.ts` file or directory for query utilities
+2. Implement functions for common CRUD operations
+3. Add transaction support for operations that require it
+4. Implement proper error handling and logging for database operations
+5. Create helper functions for pagination and filtering if needed
+6. Ensure all query functions use parameterized queries to prevent SQL injection
+
+## 5. Create documentation and connection management strategy [pending]
+### Dependencies: None
+### Description: Document the database setup and implement proper connection management for production environments
+### Details:
+1. Document the database schema with diagrams and descriptions
+2. Create setup instructions for other developers
+3. Document all environment variables and their purpose
+4. Implement proper connection closing/cleanup mechanisms
+5. Add connection pooling configuration for production environments
+6. Implement reconnection strategies for handling temporary connection failures
+7. Create a database migration strategy if needed
+8. Add monitoring and logging for database performance
+

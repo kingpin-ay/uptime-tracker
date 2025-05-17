@@ -1,7 +1,7 @@
 # Task ID: 2
 # Title: Design and Implement Database Schema
 # Status: pending
-# Dependencies: 1
+# Dependencies: 1, 21
 # Priority: high
 # Description: Design and implement the database schema for storing user accounts, monitors, check history, and alerts.
 # Details:
@@ -61,7 +61,7 @@ Implement appropriate indexes for frequently queried fields.
 Write unit tests to verify database schema creation. Test CRUD operations on each table. Verify foreign key constraints and indexes are properly set up. Test with sample data to ensure relationships work as expected.
 
 # Subtasks:
-## 1. Create Entity Relationship Diagram [pending]
+## 1. Create Entity Relationship Diagram [in-progress]
 ### Dependencies: None
 ### Description: Design the database schema by creating an Entity Relationship Diagram (ERD) that visualizes all tables, relationships, and constraints.
 ### Details:
