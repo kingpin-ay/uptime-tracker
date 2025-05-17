@@ -1,0 +1,61 @@
+# Task ID: 2
+# Title: Design and Implement Database Schema
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Design and implement the database schema for storing user accounts, monitors, check history, and alerts.
+# Details:
+Create PostgreSQL schema with the following tables:
+
+1. Users
+   - id (PK)
+   - email
+   - password_hash
+   - github_id (nullable)
+   - created_at
+   - updated_at
+   - tier (free/paid)
+
+2. Monitors
+   - id (PK)
+   - user_id (FK)
+   - name
+   - type (website/cronjob)
+   - url (for website monitors)
+   - method (GET/POST, for website monitors)
+   - interval_minutes
+   - expected_status_codes (for website monitors)
+   - headers (JSON, for website monitors)
+   - ping_url (for cron job monitors)
+   - expected_ping_interval_minutes (for cron job monitors)
+   - created_at
+   - updated_at
+
+3. Checks
+   - id (PK)
+   - monitor_id (FK)
+   - timestamp
+   - status_code (for website monitors)
+   - response_time_ms (for website monitors)
+   - success (boolean)
+   - error_message (nullable)
+
+4. Pings
+   - id (PK)
+   - monitor_id (FK)
+   - timestamp
+
+5. Alerts
+   - id (PK)
+   - monitor_id (FK)
+   - triggered_at
+   - resolved_at (nullable)
+   - acknowledged_at (nullable)
+   - acknowledgment_note (nullable)
+   - type (down/missed_ping)
+   - details (JSON)
+
+Implement appropriate indexes for frequently queried fields.
+
+# Test Strategy:
+Write unit tests to verify database schema creation. Test CRUD operations on each table. Verify foreign key constraints and indexes are properly set up. Test with sample data to ensure relationships work as expected.

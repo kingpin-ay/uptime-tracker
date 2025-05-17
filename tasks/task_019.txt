@@ -1,0 +1,23 @@
+# Task ID: 19
+# Title: Create API Documentation
+# Status: pending
+# Dependencies: 5, 6, 10, 15
+# Priority: low
+# Description: Develop comprehensive API documentation for the application.
+# Details:
+1. Implement Swagger/OpenAPI for API documentation
+2. Document all API endpoints:
+   - Authentication endpoints
+   - Monitor management endpoints
+   - Alert management endpoints
+   - User profile endpoints
+   - Statistics endpoints
+3. Include request/response examples
+4. Document error codes and messages
+5. Create getting started guide
+6. Add authentication documentation
+7. Include rate limiting information
+8. Create interactive API explorer
+
+# Test Strategy:
+Verify documentation accuracy by comparing with actual API behavior. Test interactive explorer functionality. Verify examples work as documented. Check documentation for all error scenarios.

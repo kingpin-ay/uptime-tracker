@@ -1,0 +1,23 @@
+# Task ID: 8
+# Title: Implement Website/API Monitoring Engine
+# Status: pending
+# Dependencies: 2, 5
+# Priority: high
+# Description: Develop the core monitoring engine that performs HTTP checks on configured website/API monitors.
+# Details:
+1. Create a background worker service using Bull queue with Redis
+2. Implement scheduler that enqueues checks based on monitor intervals
+3. Create worker that processes check jobs:
+   - Performs HTTP requests to monitored URLs
+   - Records response status code and time
+   - Handles timeouts (10 second maximum)
+   - Implements retry logic for potential false positives
+   - Stores check results in database
+   - Triggers alert process for non-2xx/3xx responses
+4. Implement concurrency control to manage system load
+5. Add error handling and logging
+6. Implement monitoring for the monitoring engine itself
+7. Create metrics collection for system performance
+
+# Test Strategy:
+Write unit tests for the HTTP checking logic. Create integration tests with mock HTTP endpoints. Test retry logic with intentionally failing endpoints. Verify timeout handling works correctly. Test concurrency handling under load. Verify metrics collection accuracy.

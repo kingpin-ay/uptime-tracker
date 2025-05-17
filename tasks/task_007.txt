@@ -1,0 +1,27 @@
+# Task ID: 7
+# Title: Develop Monitor Creation UI Components
+# Status: pending
+# Dependencies: 4, 5, 6
+# Priority: medium
+# Description: Create user interface components for adding and configuring both website/API and cron job monitors.
+# Details:
+1. Create React components for:
+   - Monitor type selection (website/API vs cron job)
+   - Website/API monitor form
+     - URL input with validation
+     - HTTP method selection (GET/POST)
+     - Interval selection (5, 15, 30 minutes)
+     - Advanced options section for headers and authentication
+   - Cron job monitor form
+     - Name input
+     - Expected interval selection
+     - Generated ping URL display with copy button
+     - Instructions for implementation
+2. Implement form validation
+3. Create success/error message components
+4. Add loading states during form submission
+5. Implement responsive design using Tailwind CSS
+6. Create monitor limit warning for free tier users
+
+# Test Strategy:
+Write unit tests for form validation logic. Create integration tests for form submission. Test responsive design across different screen sizes. Verify error handling for invalid inputs. Test the copy-to-clipboard functionality for ping URLs.

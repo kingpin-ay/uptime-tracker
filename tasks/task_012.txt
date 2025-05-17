@@ -1,0 +1,24 @@
+# Task ID: 12
+# Title: Implement Monitor Detail View
+# Status: pending
+# Dependencies: 8, 9, 11
+# Priority: medium
+# Description: Create the detailed view for individual monitors showing configuration, history, and performance metrics.
+# Details:
+1. Create React components for:
+   - Monitor detail page layout
+   - Configuration panel showing current settings
+   - Status timeline visualization
+   - Recent checks/pings table with timestamps
+   - Performance metrics graph (for website monitors)
+   - Alert history list
+   - Edit and delete buttons
+2. Implement Chart.js for uptime visualization and response time graphs
+3. Create tabbed interface for different sections of information
+4. Add pagination for historical data
+5. Implement responsive design using Tailwind CSS
+6. Create loading states and error handling
+7. Add dark mode support
+
+# Test Strategy:
+Write unit tests for UI components. Test data visualization with various datasets. Verify pagination works correctly. Test responsive design across different screen sizes. Verify correct display of historical data.

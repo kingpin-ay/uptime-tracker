@@ -1,0 +1,25 @@
+# Task ID: 3
+# Title: Implement User Authentication System
+# Status: pending
+# Dependencies: 1, 2
+# Priority: high
+# Description: Develop the authentication system supporting both email/password and GitHub OAuth login methods.
+# Details:
+1. Implement Passport.js for authentication strategies
+2. Create local strategy for email/password authentication
+   - Implement secure password hashing with bcrypt
+   - Store user credentials in the database
+3. Implement GitHub OAuth strategy
+   - Register application with GitHub
+   - Configure callback URLs
+   - Handle user creation/linking based on email
+4. Create JWT token generation for authenticated sessions
+5. Implement middleware for protected routes
+6. Create registration endpoint with email verification
+7. Implement password reset functionality
+8. Create login/logout endpoints
+9. Implement rate limiting for authentication endpoints
+10. Add CSRF protection for form submissions
+
+# Test Strategy:
+Write unit tests for authentication functions. Test registration, login, and password reset flows. Verify GitHub OAuth integration with mock OAuth responses. Test security measures like rate limiting and CSRF protection. Ensure password hashing is working correctly.

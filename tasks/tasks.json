@@ -1,0 +1,305 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Setup Project Repository and Infrastructure",
+      "description": "Initialize the project repository with the required structure and setup basic infrastructure for development.",
+      "details": "1. Create a new GitHub repository for the project\n2. Initialize a Node.js project with Express.js\n3. Setup React.js frontend with Create React App or Next.js\n4. Configure ESLint and Prettier for code standardization\n5. Setup basic CI/CD with GitHub Actions\n6. Configure AWS resources (EC2/Elastic Beanstalk, RDS for PostgreSQL, ElastiCache for Redis)\n7. Setup domain with Route 53 and SSL certificate with ACM\n8. Implement basic logging with Winston",
+      "testStrategy": "Verify that all infrastructure components are properly connected and the basic application can be deployed. Test the CI/CD pipeline by making a small change and ensuring it's automatically deployed.",
+      "priority": "high",
+      "dependencies": [],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 2,
+      "title": "Design and Implement Database Schema",
+      "description": "Design and implement the database schema for storing user accounts, monitors, check history, and alerts.",
+      "details": "Create PostgreSQL schema with the following tables:\n\n1. Users\n   - id (PK)\n   - email\n   - password_hash\n   - github_id (nullable)\n   - created_at\n   - updated_at\n   - tier (free/paid)\n\n2. Monitors\n   - id (PK)\n   - user_id (FK)\n   - name\n   - type (website/cronjob)\n   - url (for website monitors)\n   - method (GET/POST, for website monitors)\n   - interval_minutes\n   - expected_status_codes (for website monitors)\n   - headers (JSON, for website monitors)\n   - ping_url (for cron job monitors)\n   - expected_ping_interval_minutes (for cron job monitors)\n   - created_at\n   - updated_at\n\n3. Checks\n   - id (PK)\n   - monitor_id (FK)\n   - timestamp\n   - status_code (for website monitors)\n   - response_time_ms (for website monitors)\n   - success (boolean)\n   - error_message (nullable)\n\n4. Pings\n   - id (PK)\n   - monitor_id (FK)\n   - timestamp\n\n5. Alerts\n   - id (PK)\n   - monitor_id (FK)\n   - triggered_at\n   - resolved_at (nullable)\n   - acknowledged_at (nullable)\n   - acknowledgment_note (nullable)\n   - type (down/missed_ping)\n   - details (JSON)\n\nImplement appropriate indexes for frequently queried fields.",
+      "testStrategy": "Write unit tests to verify database schema creation. Test CRUD operations on each table. Verify foreign key constraints and indexes are properly set up. Test with sample data to ensure relationships work as expected.",
+      "priority": "high",
+      "dependencies": [
+        1
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 3,
+      "title": "Implement User Authentication System",
+      "description": "Develop the authentication system supporting both email/password and GitHub OAuth login methods.",
+      "details": "1. Implement Passport.js for authentication strategies\n2. Create local strategy for email/password authentication\n   - Implement secure password hashing with bcrypt\n   - Store user credentials in the database\n3. Implement GitHub OAuth strategy\n   - Register application with GitHub\n   - Configure callback URLs\n   - Handle user creation/linking based on email\n4. Create JWT token generation for authenticated sessions\n5. Implement middleware for protected routes\n6. Create registration endpoint with email verification\n7. Implement password reset functionality\n8. Create login/logout endpoints\n9. Implement rate limiting for authentication endpoints\n10. Add CSRF protection for form submissions",
+      "testStrategy": "Write unit tests for authentication functions. Test registration, login, and password reset flows. Verify GitHub OAuth integration with mock OAuth responses. Test security measures like rate limiting and CSRF protection. Ensure password hashing is working correctly.",
+      "priority": "high",
+      "dependencies": [
+        1,
+        2
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 4,
+      "title": "Create User Registration and Login UI",
+      "description": "Develop the user interface components for registration, login, and password reset.",
+      "details": "1. Create React components for:\n   - Registration form\n   - Login form\n   - Password reset request form\n   - Password reset confirmation form\n   - Email verification page\n2. Implement form validation using Formik or React Hook Form\n3. Add GitHub OAuth login button\n4. Implement client-side validation for password strength\n5. Create success/error message components\n6. Implement responsive design using Tailwind CSS\n7. Add loading states during authentication processes\n8. Implement redirect logic after successful authentication\n9. Create protected route wrapper for authenticated pages",
+      "testStrategy": "Write unit tests for form validation logic. Create integration tests for form submission. Test responsive design across different screen sizes. Verify error handling for invalid inputs. Test OAuth flow with mock responses.",
+      "priority": "high",
+      "dependencies": [
+        3
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 5,
+      "title": "Implement Website/API Monitor Creation Backend",
+      "description": "Develop the backend functionality for creating, retrieving, updating, and deleting website/API monitors.",
+      "details": "1. Create RESTful API endpoints for website monitors:\n   - POST /api/monitors/website (create)\n   - GET /api/monitors/website (list all)\n   - GET /api/monitors/website/:id (get one)\n   - PUT /api/monitors/website/:id (update)\n   - DELETE /api/monitors/website/:id (delete)\n2. Implement validation for monitor creation:\n   - Valid URL format\n   - Valid HTTP method (GET/POST)\n   - Valid interval (5, 15, 30 minutes)\n3. Enforce free tier limitations (max 3 monitors total)\n4. Implement authorization to ensure users can only access their own monitors\n5. Store monitor configuration in the database\n6. Implement logic to handle request headers and authentication for API monitoring\n7. Add validation for monitor updates",
+      "testStrategy": "Write unit tests for validation logic. Create integration tests for each API endpoint. Test authorization by attempting to access monitors from different users. Verify free tier limitations are enforced. Test edge cases like malformed URLs or invalid intervals.",
+      "priority": "high",
+      "dependencies": [
+        2,
+        3
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 6,
+      "title": "Implement Cron Job Monitor Creation Backend",
+      "description": "Develop the backend functionality for creating, retrieving, updating, and deleting cron job monitors.",
+      "details": "1. Create RESTful API endpoints for cron job monitors:\n   - POST /api/monitors/cronjob (create)\n   - GET /api/monitors/cronjob (list all)\n   - GET /api/monitors/cronjob/:id (get one)\n   - PUT /api/monitors/cronjob/:id (update)\n   - DELETE /api/monitors/cronjob/:id (delete)\n2. Implement validation for cron job monitor creation:\n   - Valid name\n   - Valid expected ping interval\n3. Generate unique ping URLs for each cron job monitor\n   - Format: https://domain.com/ping/{unique-identifier}\n   - Use UUID v4 for unique identifiers\n4. Enforce free tier limitations (max 3 monitors total)\n5. Implement authorization to ensure users can only access their own monitors\n6. Create endpoint for ping URL reset\n7. Implement ping receiver endpoint that records successful pings",
+      "testStrategy": "Write unit tests for validation logic and unique URL generation. Create integration tests for each API endpoint. Test ping URL functionality by simulating cron job pings. Verify URL reset functionality works correctly. Test authorization by attempting to access monitors from different users.",
+      "priority": "high",
+      "dependencies": [
+        2,
+        3
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 7,
+      "title": "Develop Monitor Creation UI Components",
+      "description": "Create user interface components for adding and configuring both website/API and cron job monitors.",
+      "details": "1. Create React components for:\n   - Monitor type selection (website/API vs cron job)\n   - Website/API monitor form\n     - URL input with validation\n     - HTTP method selection (GET/POST)\n     - Interval selection (5, 15, 30 minutes)\n     - Advanced options section for headers and authentication\n   - Cron job monitor form\n     - Name input\n     - Expected interval selection\n     - Generated ping URL display with copy button\n     - Instructions for implementation\n2. Implement form validation\n3. Create success/error message components\n4. Add loading states during form submission\n5. Implement responsive design using Tailwind CSS\n6. Create monitor limit warning for free tier users",
+      "testStrategy": "Write unit tests for form validation logic. Create integration tests for form submission. Test responsive design across different screen sizes. Verify error handling for invalid inputs. Test the copy-to-clipboard functionality for ping URLs.",
+      "priority": "medium",
+      "dependencies": [
+        4,
+        5,
+        6
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 8,
+      "title": "Implement Website/API Monitoring Engine",
+      "description": "Develop the core monitoring engine that performs HTTP checks on configured website/API monitors.",
+      "details": "1. Create a background worker service using Bull queue with Redis\n2. Implement scheduler that enqueues checks based on monitor intervals\n3. Create worker that processes check jobs:\n   - Performs HTTP requests to monitored URLs\n   - Records response status code and time\n   - Handles timeouts (10 second maximum)\n   - Implements retry logic for potential false positives\n   - Stores check results in database\n   - Triggers alert process for non-2xx/3xx responses\n4. Implement concurrency control to manage system load\n5. Add error handling and logging\n6. Implement monitoring for the monitoring engine itself\n7. Create metrics collection for system performance",
+      "testStrategy": "Write unit tests for the HTTP checking logic. Create integration tests with mock HTTP endpoints. Test retry logic with intentionally failing endpoints. Verify timeout handling works correctly. Test concurrency handling under load. Verify metrics collection accuracy.",
+      "priority": "high",
+      "dependencies": [
+        2,
+        5
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 9,
+      "title": "Implement Cron Job Monitoring Engine",
+      "description": "Develop the system for tracking cron job pings and detecting missed executions.",
+      "details": "1. Create endpoint to receive and record cron job pings\n2. Implement ping verification:\n   - Validate ping URL exists and is active\n   - Record timestamp of successful ping\n   - Update monitor status\n3. Create background worker that checks for missed pings:\n   - Runs at regular intervals (e.g., every minute)\n   - Identifies monitors that have exceeded their expected ping interval\n   - Triggers alert process for missed pings\n4. Implement concurrency control to manage system load\n5. Add error handling and logging\n6. Create metrics collection for system performance",
+      "testStrategy": "Write unit tests for ping verification logic. Create integration tests with simulated pings. Test missed ping detection with various intervals. Verify alert triggering works correctly. Test system under load with many simultaneous pings.",
+      "priority": "high",
+      "dependencies": [
+        2,
+        6
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 10,
+      "title": "Develop Alerting System",
+      "description": "Implement the alerting system that sends notifications for monitor failures and missed cron jobs.",
+      "details": "1. Integrate with email service (SendGrid or AWS SES)\n2. Create alert templates for:\n   - Website/API down alerts\n   - Missed cron job alerts\n   - Resolution notifications\n3. Implement alert throttling to prevent alert fatigue\n   - Set minimum time between repeated alerts\n   - Group multiple failures into single notifications when appropriate\n4. Create alert tracking in database\n5. Implement alert acknowledgment functionality\n6. Add resolution detection and notification\n7. Create alert history tracking\n8. Implement email delivery retry logic\n9. Add logging for all alert activities",
+      "testStrategy": "Write unit tests for alert generation logic. Test email template rendering. Create integration tests with mock email service. Verify throttling logic prevents excessive alerts. Test acknowledgment functionality. Verify resolution detection works correctly.",
+      "priority": "high",
+      "dependencies": [
+        2,
+        8,
+        9
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 11,
+      "title": "Create Dashboard UI",
+      "description": "Develop the main dashboard interface displaying monitor status and alerts.",
+      "details": "1. Create React components for:\n   - Dashboard layout with responsive design\n   - Monitor list with status indicators\n   - Status summary showing counts of total/healthy/alerting monitors\n   - Quick filters for monitor types and status\n   - Search functionality for monitors\n   - Add monitor button/call-to-action\n2. Implement status indicators with appropriate colors:\n   - Green (#10B981) for healthy/up status\n   - Red (#EF4444) for down/alerting status\n3. Display last check time for website monitors\n4. Show last ping time for cron job monitors\n5. Display uptime percentages for 24h and 7d periods\n6. Implement auto-refresh functionality (every 30-60 seconds)\n7. Create loading states and error handling\n8. Implement responsive design using Tailwind CSS\n9. Add dark mode support",
+      "testStrategy": "Write unit tests for UI components. Test responsive design across different screen sizes. Verify auto-refresh functionality works correctly. Test search and filtering capabilities. Verify correct status display for different monitor states.",
+      "priority": "medium",
+      "dependencies": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 12,
+      "title": "Implement Monitor Detail View",
+      "description": "Create the detailed view for individual monitors showing configuration, history, and performance metrics.",
+      "details": "1. Create React components for:\n   - Monitor detail page layout\n   - Configuration panel showing current settings\n   - Status timeline visualization\n   - Recent checks/pings table with timestamps\n   - Performance metrics graph (for website monitors)\n   - Alert history list\n   - Edit and delete buttons\n2. Implement Chart.js for uptime visualization and response time graphs\n3. Create tabbed interface for different sections of information\n4. Add pagination for historical data\n5. Implement responsive design using Tailwind CSS\n6. Create loading states and error handling\n7. Add dark mode support",
+      "testStrategy": "Write unit tests for UI components. Test data visualization with various datasets. Verify pagination works correctly. Test responsive design across different screen sizes. Verify correct display of historical data.",
+      "priority": "medium",
+      "dependencies": [
+        8,
+        9,
+        11
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 13,
+      "title": "Implement User Profile and Settings",
+      "description": "Develop the user profile and account settings functionality.",
+      "details": "1. Create React components for:\n   - Profile settings page\n   - Account information display\n   - Email update form\n   - Password change form\n   - Account deletion confirmation\n   - Usage statistics display\n2. Implement backend endpoints for:\n   - GET /api/user/profile\n   - PUT /api/user/email\n   - PUT /api/user/password\n   - DELETE /api/user/account\n3. Add email verification for email changes\n4. Implement secure password change flow\n5. Create account deletion process with confirmation\n6. Display current monitor count and limits\n7. Implement form validation\n8. Add success/error message components",
+      "testStrategy": "Write unit tests for form validation logic. Create integration tests for profile update operations. Test email verification flow. Verify password change security. Test account deletion process thoroughly to ensure all user data is properly removed.",
+      "priority": "medium",
+      "dependencies": [
+        3,
+        4
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 14,
+      "title": "Implement Alert Management UI",
+      "description": "Create the interface for viewing and managing alerts.",
+      "details": "1. Create React components for:\n   - Active alerts list\n   - Alert history view\n   - Alert detail modal\n   - Alert acknowledgment form\n2. Implement filtering and sorting of alerts\n3. Create alert status indicators with appropriate colors\n4. Add acknowledgment functionality\n   - Button to acknowledge alert\n   - Optional note field\n5. Display resolution status for past alerts\n6. Implement pagination for alert history\n7. Create loading states and error handling\n8. Implement responsive design using Tailwind CSS",
+      "testStrategy": "Write unit tests for UI components. Test filtering and sorting functionality. Verify acknowledgment process works correctly. Test pagination of alert history. Verify responsive design across different screen sizes.",
+      "priority": "medium",
+      "dependencies": [
+        10,
+        11
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 15,
+      "title": "Implement Uptime Calculation and Statistics",
+      "description": "Develop the system for calculating and displaying uptime percentages and performance statistics.",
+      "details": "1. Create service for calculating uptime percentages:\n   - 24-hour period calculation\n   - 7-day period calculation\n   - Custom period calculation\n2. Implement database queries for efficient retrieval of check history\n3. Create caching mechanism using Redis to improve performance\n4. Develop API endpoints for retrieving statistics:\n   - GET /api/monitors/:id/uptime\n   - GET /api/monitors/:id/response-times\n5. Implement background job to pre-calculate statistics for active monitors\n6. Create data aggregation for dashboard summary statistics\n7. Add performance optimization for large datasets",
+      "testStrategy": "Write unit tests for uptime calculation logic. Create integration tests with sample check history data. Verify cache invalidation works correctly. Test performance with large datasets. Verify accuracy of calculations against manually verified results.",
+      "priority": "medium",
+      "dependencies": [
+        8,
+        9
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 16,
+      "title": "Implement Free Tier Limitations",
+      "description": "Develop the system for enforcing and communicating free tier limitations.",
+      "details": "1. Implement monitor count tracking per user\n2. Create middleware to check monitor limits before creation\n3. Develop clear error messages for limit reached scenarios\n4. Add visual indicators in UI for approaching limits\n5. Create usage display in user profile\n6. Implement backend validation to prevent exceeding limits\n7. Add upgrade prompts when limits are reached",
+      "testStrategy": "Write unit tests for limit checking logic. Create integration tests attempting to exceed limits. Verify error messages are clear and helpful. Test UI indicators for approaching limits. Verify upgrade prompts appear at appropriate times.",
+      "priority": "medium",
+      "dependencies": [
+        5,
+        6
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 17,
+      "title": "Implement System Monitoring and Logging",
+      "description": "Set up comprehensive monitoring and logging for the application itself.",
+      "details": "1. Configure AWS CloudWatch for system monitoring\n2. Implement Winston for structured application logging\n3. Create custom metrics for:\n   - Check execution counts and timing\n   - Alert generation frequency\n   - API endpoint usage and response times\n   - Background job performance\n4. Set up log aggregation and analysis\n5. Configure alerts for system issues\n6. Implement performance tracking for database queries\n7. Create dashboard for internal system monitoring\n8. Set up error tracking and reporting",
+      "testStrategy": "Verify logs are properly generated for key application events. Test metric collection accuracy. Verify alerts trigger correctly for system issues. Test log rotation and retention policies. Verify performance tracking correctly identifies slow operations.",
+      "priority": "medium",
+      "dependencies": [
+        1,
+        8,
+        9
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 18,
+      "title": "Implement Security Measures",
+      "description": "Implement comprehensive security measures throughout the application.",
+      "details": "1. Implement secure HTTP headers:\n   - Content-Security-Policy\n   - X-XSS-Protection\n   - X-Content-Type-Options\n   - Referrer-Policy\n2. Configure HTTPS/TLS for all communications\n3. Implement rate limiting for API endpoints\n4. Add CSRF protection for form submissions\n5. Ensure secure storage of sensitive data:\n   - Encrypt API credentials at rest\n   - Secure password hashing with bcrypt\n6. Implement input validation on all endpoints\n7. Create security-focused middleware\n8. Add protection against common web vulnerabilities\n9. Implement JWT token security best practices",
+      "testStrategy": "Perform security scanning with tools like OWASP ZAP. Test rate limiting by exceeding thresholds. Verify CSRF protection prevents cross-site requests. Test input validation with malicious payloads. Verify encryption of sensitive data in the database.",
+      "priority": "high",
+      "dependencies": [
+        3,
+        5,
+        6
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 19,
+      "title": "Create API Documentation",
+      "description": "Develop comprehensive API documentation for the application.",
+      "details": "1. Implement Swagger/OpenAPI for API documentation\n2. Document all API endpoints:\n   - Authentication endpoints\n   - Monitor management endpoints\n   - Alert management endpoints\n   - User profile endpoints\n   - Statistics endpoints\n3. Include request/response examples\n4. Document error codes and messages\n5. Create getting started guide\n6. Add authentication documentation\n7. Include rate limiting information\n8. Create interactive API explorer",
+      "testStrategy": "Verify documentation accuracy by comparing with actual API behavior. Test interactive explorer functionality. Verify examples work as documented. Check documentation for all error scenarios.",
+      "priority": "low",
+      "dependencies": [
+        5,
+        6,
+        10,
+        15
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 20,
+      "title": "Perform System Integration Testing and Deployment",
+      "description": "Conduct comprehensive integration testing and prepare for production deployment.",
+      "details": "1. Create end-to-end test suite using Cypress\n2. Test complete user journeys:\n   - Registration and login\n   - Monitor creation and management\n   - Alert generation and acknowledgment\n   - Account management\n3. Perform load testing to verify system handles expected load\n4. Conduct security audit\n5. Optimize database queries and indexes\n6. Finalize deployment pipeline\n7. Create database migration scripts\n8. Prepare rollback procedures\n9. Document deployment process\n10. Perform final UAT (User Acceptance Testing)\n11. Deploy to production environment",
+      "testStrategy": "Execute comprehensive end-to-end test suite. Perform load testing with simulated users and monitors. Conduct security penetration testing. Verify all user journeys work as expected. Test deployment and rollback procedures in staging environment before production deployment.",
+      "priority": "high",
+      "dependencies": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "status": "pending",
+      "subtasks": []
+    }
+  ]
+}

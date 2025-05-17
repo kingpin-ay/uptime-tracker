@@ -1,0 +1,22 @@
+# Task ID: 9
+# Title: Implement Cron Job Monitoring Engine
+# Status: pending
+# Dependencies: 2, 6
+# Priority: high
+# Description: Develop the system for tracking cron job pings and detecting missed executions.
+# Details:
+1. Create endpoint to receive and record cron job pings
+2. Implement ping verification:
+   - Validate ping URL exists and is active
+   - Record timestamp of successful ping
+   - Update monitor status
+3. Create background worker that checks for missed pings:
+   - Runs at regular intervals (e.g., every minute)
+   - Identifies monitors that have exceeded their expected ping interval
+   - Triggers alert process for missed pings
+4. Implement concurrency control to manage system load
+5. Add error handling and logging
+6. Create metrics collection for system performance
+
+# Test Strategy:
+Write unit tests for ping verification logic. Create integration tests with simulated pings. Test missed ping detection with various intervals. Verify alert triggering works correctly. Test system under load with many simultaneous pings.

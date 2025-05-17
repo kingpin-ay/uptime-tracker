@@ -1,0 +1,22 @@
+# Task ID: 15
+# Title: Implement Uptime Calculation and Statistics
+# Status: pending
+# Dependencies: 8, 9
+# Priority: medium
+# Description: Develop the system for calculating and displaying uptime percentages and performance statistics.
+# Details:
+1. Create service for calculating uptime percentages:
+   - 24-hour period calculation
+   - 7-day period calculation
+   - Custom period calculation
+2. Implement database queries for efficient retrieval of check history
+3. Create caching mechanism using Redis to improve performance
+4. Develop API endpoints for retrieving statistics:
+   - GET /api/monitors/:id/uptime
+   - GET /api/monitors/:id/response-times
+5. Implement background job to pre-calculate statistics for active monitors
+6. Create data aggregation for dashboard summary statistics
+7. Add performance optimization for large datasets
+
+# Test Strategy:
+Write unit tests for uptime calculation logic. Create integration tests with sample check history data. Verify cache invalidation works correctly. Test performance with large datasets. Verify accuracy of calculations against manually verified results.

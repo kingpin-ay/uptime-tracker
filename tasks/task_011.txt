@@ -1,0 +1,27 @@
+# Task ID: 11
+# Title: Create Dashboard UI
+# Status: pending
+# Dependencies: 7, 8, 9, 10
+# Priority: medium
+# Description: Develop the main dashboard interface displaying monitor status and alerts.
+# Details:
+1. Create React components for:
+   - Dashboard layout with responsive design
+   - Monitor list with status indicators
+   - Status summary showing counts of total/healthy/alerting monitors
+   - Quick filters for monitor types and status
+   - Search functionality for monitors
+   - Add monitor button/call-to-action
+2. Implement status indicators with appropriate colors:
+   - Green (#10B981) for healthy/up status
+   - Red (#EF4444) for down/alerting status
+3. Display last check time for website monitors
+4. Show last ping time for cron job monitors
+5. Display uptime percentages for 24h and 7d periods
+6. Implement auto-refresh functionality (every 30-60 seconds)
+7. Create loading states and error handling
+8. Implement responsive design using Tailwind CSS
+9. Add dark mode support
+
+# Test Strategy:
+Write unit tests for UI components. Test responsive design across different screen sizes. Verify auto-refresh functionality works correctly. Test search and filtering capabilities. Verify correct status display for different monitor states.
