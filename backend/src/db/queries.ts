@@ -317,3 +317,16 @@ export async function deleteAlert(id: number): Promise<boolean> {
     throw error;
   }
 }
+
+// Get user by email
+export async function getUserByEmail(email: string): Promise<User | null> {
+  try {
+    const result = await db.select().from(usersTable).where(eq(usersTable.email, email));
+    return result[0] || null;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error("Failed to get user by email: " + error.message);
+    }
+    throw error;
+  }
+}

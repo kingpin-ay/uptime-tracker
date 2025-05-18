@@ -8,6 +8,11 @@ const envSchema = z.object({
   DATABASE_HOST: z.string(),
   DATABASE_PORT: z.string().regex(/^[0-9]+$/),
   DATABASE_NAME: z.string(),
+  SESSION_SECRET: z.string(),
+  GITHUB_CLIENT_ID: z.string(),
+  GITHUB_CLIENT_SECRET: z.string(),
+  GITHUB_CALLBACK_URL: z.string(),
+  JWT_SECRET: z.string(),
 });
 
 const parsed = envSchema.safeParse(process.env);
