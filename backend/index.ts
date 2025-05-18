@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = env.PORT || 3001;
 
 app.use(express.json());
 

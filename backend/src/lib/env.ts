@@ -2,6 +2,7 @@ import "dotenv/config";
 import { z } from "zod";
 
 const envSchema = z.object({
+  PORT: z.string().regex(/^[0-9]+$/),
   DATABASE_URL: z.string(),
   DATABASE_USER: z.string(),
   DATABASE_PASSWORD: z.string(),
