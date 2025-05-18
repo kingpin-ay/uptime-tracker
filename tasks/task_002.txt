@@ -1,6 +1,6 @@
 # Task ID: 2
 # Title: Design and Implement Database Schema
-# Status: pending
+# Status: done
 # Dependencies: 1, 21
 # Priority: high
 # Description: Design and implement the database schema for storing user accounts, monitors, check history, and alerts.
@@ -61,31 +61,31 @@ Implement appropriate indexes for frequently queried fields.
 Write unit tests to verify database schema creation. Test CRUD operations on each table. Verify foreign key constraints and indexes are properly set up. Test with sample data to ensure relationships work as expected.
 
 # Subtasks:
-## 1. Create Entity Relationship Diagram [in-progress]
+## 1. Create Entity Relationship Diagram [done]
 ### Dependencies: None
 ### Description: Design the database schema by creating an Entity Relationship Diagram (ERD) that visualizes all tables, relationships, and constraints.
 ### Details:
 Use a database modeling tool to create a comprehensive ERD. Define all entities, attributes, primary keys, foreign keys, and cardinality relationships. Document data types, constraints, and include notes on indexing requirements. Get stakeholder approval on the final design before proceeding to implementation.
 
-## 2. Write Table Creation Scripts [pending]
+## 2. Write Table Creation Scripts [done]
 ### Dependencies: 2.1
 ### Description: Develop SQL scripts to create all database tables according to the approved schema design.
 ### Details:
 Create SQL scripts that define all tables with appropriate column data types, primary keys, foreign keys, and constraints. Include comments explaining the purpose of each table and any important considerations. Organize scripts in a logical order to handle dependencies between tables. Implement proper naming conventions for all database objects.
 
-## 3. Implement Database Indexes [pending]
+## 3. Implement Database Indexes [done]
 ### Dependencies: 2.2
 ### Description: Design and create appropriate indexes to optimize query performance based on expected access patterns.
 ### Details:
 Analyze the most common query patterns and create indexes to support them. Consider both single-column and composite indexes. Document the rationale for each index. Implement indexes for foreign keys and frequently filtered columns. Avoid over-indexing by considering the performance impact on write operations.
 
-## 4. Develop Database Migration Scripts [pending]
+## 4. Develop Database Migration Scripts [done]
 ### Dependencies: 2.2, 2.3
 ### Description: Create migration scripts for version control and deployment of the database schema.
 ### Details:
 Develop forward and rollback migration scripts for each schema change. Implement a versioning system for tracking migrations. Include data migration scripts if needed. Test migration scripts in a development environment before finalizing. Document the migration process and any special considerations for production deployment.
 
-## 5. Test Database Schema Implementation [pending]
+## 5. Test Database Schema Implementation [done]
 ### Dependencies: 2.2, 2.3, 2.4
 ### Description: Perform comprehensive testing of the database schema to ensure it meets all requirements and performs as expected.
 ### Details:
